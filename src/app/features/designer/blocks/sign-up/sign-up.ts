@@ -11,10 +11,10 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 
-import { Button } from 'primeng/button';
-import { InputText } from 'primeng/inputtext';
-import { Message } from 'primeng/message';
-import { Divider } from 'primeng/divider';
+import { Button } from '@openng/optimus-ui/button';
+import { InputText } from '@openng/optimus-ui/inputtext';
+import { Message } from '@openng/optimus-ui/message';
+import { Divider } from '@openng/optimus-ui/divider';
 
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
   const password = control.get('password')?.value;

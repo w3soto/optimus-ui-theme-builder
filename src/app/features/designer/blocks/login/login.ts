@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Button } from 'primeng/button';
-import { InputText } from 'primeng/inputtext';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
-import { CardModule } from 'primeng/card';
-import { Message } from 'primeng/message';
-import { PasswordModule } from 'primeng/password';
+import { Button } from '@openng/optimus-ui/button';
+import { InputText } from '@openng/optimus-ui/inputtext';
+import { ToastModule } from '@openng/optimus-ui/toast';
+import { MessageService } from '@openng/optimus-ui/api';
+import { CardModule } from '@openng/optimus-ui/card';
+import { Message } from '@openng/optimus-ui/message';
+import { PasswordModule } from '@openng/optimus-ui/password';
 
 @Component({
   selector: 'app-login-block',

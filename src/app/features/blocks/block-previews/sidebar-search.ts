@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { InputText } from 'primeng/inputtext';
+import { InputText } from '@openng/optimus-ui/inputtext';
 
 import { DashboardContent } from './dashboard-content';
 

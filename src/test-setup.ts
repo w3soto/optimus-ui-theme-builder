@@ -1,4 +1,4 @@
-// Polyfill ResizeObserver for jsdom (used by PrimeNG Tabs)
+// Polyfill ResizeObserver for jsdom (used by Optimus Tabs)
 if (typeof globalThis.ResizeObserver === 'undefined') {
   globalThis.ResizeObserver = class ResizeObserver {
     observe() {}

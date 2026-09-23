@@ -1,7 +1,7 @@
-import Aura from '@primeuix/themes/aura';
-import Material from '@primeuix/themes/material';
-import { definePreset } from '@primeuix/themes';
-import type { Preset } from '@primeuix/themes/types';
+import Aura from '@openng/optimus-ui-themes/aura';
+import Material from '@openng/optimus-ui-themes/material';
+import { definePreset } from '@openng/optimus-ui-themes';
+import type { Preset } from '@openng/optimus-ui-themes/types';
 
 const paletteRef = (name: string) => ({
   50: `{${name}.50}`,
@@ -551,7 +551,7 @@ export interface StarterTheme {
 export const CUSTOM_STARTER_THEME: StarterTheme = {
   id: 'custom',
   name: 'Custom',
-  description: 'A neutral PrimeNG foundation ready for your own tokens and visual language.',
+  description: 'A neutral Optimus foundation ready for your own tokens and visual language.',
   bestFor: 'Your design system',
   accent: '#64748b',
   accentSoft: '#f1f5f9',
@@ -559,7 +559,12 @@ export const CUSTOM_STARTER_THEME: StarterTheme = {
   radius: '0.5rem',
   fontFamily: 'Inter var',
   fontSize: '14px',
-  preset: Aura,
+  preset: {
+    ...Aura,
+    primitive: {
+      ...Aura.primitive,
+    }
+  },
 };
 
 export const STARTER_THEMES: readonly StarterTheme[] = [

@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { palette } from '@primeuix/themes';
-import { Fieldset } from 'primeng/fieldset';
+import { Fieldset } from '@openng/optimus-ui/fieldset';
 
 import { ThemeDesignerService } from '../services/theme-designer.service';
 import { ColorPalette } from './color-palette';
+import { palette } from "@openng/optimus-ui-themes";
 
 @Component({
   selector: 'design-primitive-colors',

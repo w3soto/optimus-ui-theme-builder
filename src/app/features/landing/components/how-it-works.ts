@@ -40,7 +40,7 @@ export class HowItWorks {
       icon: 'pi pi-download',
       title: 'Export, review, and ship',
       description:
-        'Generate a production-ready TypeScript preset that fits directly into providePrimeNG and source control.',
+        'Generate a production-ready TypeScript preset that fits directly into provideOptimus and source control.',
       detail: 'Typed application code',
     },
   ];

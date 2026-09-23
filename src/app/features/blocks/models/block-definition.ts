@@ -132,7 +132,7 @@ export const SIDEBAR_BLOCKS: BlockDefinition[] = [
     description: 'User avatar and profile info at top with sign-out footer',
     category: 'sidebar',
     previewComponent: SidebarAvatarProfilePreview,
-    htmlCode: `<!-- Requires: import { Avatar } from 'primeng/avatar'; -->
+    htmlCode: `<!-- Requires: import { Avatar } from '@openng/optimus-ui/avatar'; -->
 <nav class="w-56 bg-surface-0 border-r border-surface-200 flex flex-col h-screen">
   <div class="flex items-center gap-3 p-4 border-b border-surface-200">
     <p-avatar label="JD" shape="circle"
@@ -163,7 +163,7 @@ export const SIDEBAR_BLOCKS: BlockDefinition[] = [
     </a>
   </div>
 </nav>`,
-    tsCode: `// Import Avatar: import { Avatar } from 'primeng/avatar';
+    tsCode: `// Import Avatar: import { Avatar } from '@openng/optimus-ui/avatar';
 
 items = [
   { icon: 'pi-home', label: 'Dashboard', active: true },
@@ -179,7 +179,7 @@ items = [
     description: 'Search input at top with filtered menu items',
     category: 'sidebar',
     previewComponent: SidebarSearchPreview,
-    htmlCode: `<!-- Requires: import { InputText } from 'primeng/inputtext'; -->
+    htmlCode: `<!-- Requires: import { InputText } from '@openng/optimus-ui/inputtext'; -->
 <nav class="w-56 bg-surface-0 border-r border-surface-200 flex flex-col h-screen">
   <div class="p-3">
     <span class="p-input-icon-left w-full">
@@ -205,7 +205,7 @@ items = [
     }
   </div>
 </nav>`,
-    tsCode: `// Imports: InputText from 'primeng/inputtext', FormsModule
+    tsCode: `// Imports: InputText from '@openng/optimus-ui/inputtext', FormsModule
 import { signal, computed } from '@angular/core';
 
 query = signal('');
@@ -233,14 +233,14 @@ filteredItems = computed(() => {
     description: 'Expandable nested sub-menus using PanelMenu',
     category: 'sidebar',
     previewComponent: SidebarPanelMenuPreview,
-    htmlCode: `<!-- Requires: import { PanelMenu } from 'primeng/panelmenu'; -->
+    htmlCode: `<!-- Requires: import { PanelMenu } from '@openng/optimus-ui/panelmenu'; -->
 <nav class="w-56 bg-surface-0 border-r border-surface-200 h-screen overflow-y-auto">
   <div class="p-2">
     <p-panelmenu [model]="menuItems" [multiple]="true" />
   </div>
 </nav>`,
-    tsCode: `// Import: PanelMenu from 'primeng/panelmenu'
-import { MenuItem } from 'primeng/api';
+    tsCode: `// Import: PanelMenu from '@openng/optimus-ui/panelmenu'
+import { MenuItem } from '@openng/optimus-ui/api';
 
 menuItems: MenuItem[] = [
   {
@@ -316,7 +316,7 @@ menuItems: MenuItem[] = [
     description: 'Menu items with notification badge counts',
     category: 'sidebar',
     previewComponent: SidebarBadgesPreview,
-    htmlCode: `<!-- Requires: import { Badge } from 'primeng/badge'; -->
+    htmlCode: `<!-- Requires: import { Badge } from '@openng/optimus-ui/badge'; -->
 <nav class="w-56 bg-surface-0 border-r border-surface-200 flex flex-col py-3 h-screen">
   <div class="px-4 mb-2">
     <span class="text-xs font-semibold text-surface-400 uppercase tracking-wider">Navigation</span>
@@ -336,7 +336,7 @@ menuItems: MenuItem[] = [
     </a>
   }
 </nav>`,
-    tsCode: `// Import: Badge from 'primeng/badge'
+    tsCode: `// Import: Badge from '@openng/optimus-ui/badge'
 
 items = [
   { icon: 'pi-home', label: 'Dashboard', active: true, badge: null, severity: null },
@@ -391,10 +391,10 @@ items = [
   {
     id: 'sidebar-mini-tooltips',
     name: 'Mini with Tooltips',
-    description: 'Narrow icon sidebar with PrimeNG tooltip on hover',
+    description: 'Narrow icon sidebar with Optimus tooltip on hover',
     category: 'sidebar',
     previewComponent: SidebarMiniTooltipsPreview,
-    htmlCode: `<!-- Requires: import { Tooltip } from 'primeng/tooltip'; -->
+    htmlCode: `<!-- Requires: import { Tooltip } from '@openng/optimus-ui/tooltip'; -->
 <nav class="w-14 bg-surface-0 border-r border-surface-200 flex flex-col items-center py-3 gap-1 h-screen">
   <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-contrast mb-3">
     <i class="pi pi-th-large text-sm"></i>
@@ -417,7 +417,7 @@ items = [
     <i class="pi pi-cog"></i>
   </a>
 </nav>`,
-    tsCode: `// Import: Tooltip from 'primeng/tooltip'
+    tsCode: `// Import: Tooltip from '@openng/optimus-ui/tooltip'
 
 items = [
   { icon: 'pi-home', label: 'Home', active: true },

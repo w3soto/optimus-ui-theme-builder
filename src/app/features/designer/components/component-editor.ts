@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Fieldset } from 'primeng/fieldset';
-import { Select } from 'primeng/select';
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
+import { Fieldset } from '@openng/optimus-ui/fieldset';
+import { Select } from '@openng/optimus-ui/select';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@openng/optimus-ui/tabs';
 
 import { ThemeDesignerService } from '../services/theme-designer.service';
 import { ComponentSection } from './component-section';

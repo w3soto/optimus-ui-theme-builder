@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { Badge } from 'primeng/badge';
+import { Badge } from '@openng/optimus-ui/badge';
 
 import { DashboardContent } from './dashboard-content';
 

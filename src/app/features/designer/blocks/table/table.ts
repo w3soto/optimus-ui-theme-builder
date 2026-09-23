@@ -18,19 +18,19 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 
-import { Table, TableModule } from 'primeng/table';
-import { Button } from 'primeng/button';
-import { Tag } from 'primeng/tag';
-import { MultiSelect } from 'primeng/multiselect';
-import { Select } from 'primeng/select';
-import { ConfirmDialog } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
-import { InputText } from 'primeng/inputtext';
-import { IconField } from 'primeng/iconfield';
-import { InputIcon } from 'primeng/inputicon';
-import { Dialog } from 'primeng/dialog';
-import { InputNumber } from 'primeng/inputnumber';
-import { Tooltip } from 'primeng/tooltip';
+import { Table, TableModule } from '@openng/optimus-ui/table';
+import { Button } from '@openng/optimus-ui/button';
+import { Tag } from '@openng/optimus-ui/tag';
+import { MultiSelect } from '@openng/optimus-ui/multiselect';
+import { Select } from '@openng/optimus-ui/select';
+import { ConfirmDialog } from '@openng/optimus-ui/confirmdialog';
+import { ConfirmationService } from '@openng/optimus-ui/api';
+import { InputText } from '@openng/optimus-ui/inputtext';
+import { IconField } from '@openng/optimus-ui/iconfield';
+import { InputIcon } from '@openng/optimus-ui/inputicon';
+import { Dialog } from '@openng/optimus-ui/dialog';
+import { InputNumber } from '@openng/optimus-ui/inputnumber';
+import { Tooltip } from '@openng/optimus-ui/tooltip';
 
 export interface Column {
   field: string;

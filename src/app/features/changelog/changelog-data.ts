@@ -52,7 +52,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       },
       {
         type: 'added',
-        text: 'Searchable, sortable, selectable, and paginated customer data preview using PrimeNG',
+        text: 'Searchable, sortable, selectable, and paginated customer data preview using Optimus',
       },
       {
         type: 'changed',
@@ -64,7 +64,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       },
       {
         type: 'fixed',
-        text: 'Verified theme creation, token editing, real-time preview updates, applying themes, URL sharing, import, and TypeScript export against the current Angular and PrimeNG releases',
+        text: 'Verified theme creation, token editing, real-time preview updates, applying themes, URL sharing, import, and TypeScript export against the current Angular and Optimus releases',
       },
     ],
   },
@@ -77,7 +77,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       { type: 'added', text: 'How It Works walkthrough and expanded landing page presentation' },
       { type: 'changed', text: 'Updated Angular and Angular tooling to the latest version 21 releases' },
       { type: 'changed', text: 'Updated Tailwind CSS, Vitest, jsdom, TypeScript, RxJS, and npm tooling' },
-      { type: 'fixed', text: 'Kept PrimeNG on the latest open-source release to avoid license failures' },
+      { type: 'fixed', text: 'Kept Optimus on the latest open-source release to avoid license failures' },
     ],
   },
   {

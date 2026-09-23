@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
+import { provideOptimus } from '@openng/optimus-ui/config';
+import Aura from '@openng/optimus-ui-themes/aura';
 
 import { HelpDialog, HELP_CONTENT } from './help-dialog';
 
@@ -22,7 +22,7 @@ describe('HelpDialog', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TestHost],
-      providers: [providePrimeNG({ theme: { preset: Aura } })],
+      providers: [provideOptimus({ theme: { preset: Aura } })],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestHost);

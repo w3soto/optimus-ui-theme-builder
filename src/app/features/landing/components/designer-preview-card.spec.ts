@@ -58,7 +58,7 @@ describe('DesignerPreviewCard', () => {
     expect(el.querySelectorAll('.semantic-list > div').length).toBe(3);
   });
 
-  it('should render a live PrimeNG component sample', async () => {
+  it('should render a live Optimus component sample', async () => {
     const fixture = TestBed.createComponent(DesignerPreviewCard);
     await fixture.whenStable();
     const el = fixture.nativeElement as HTMLElement;

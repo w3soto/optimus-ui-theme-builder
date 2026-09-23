@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
+import { provideOptimus } from '@openng/optimus-ui/config';
+import Aura from '@openng/optimus-ui-themes/aura';
 
 import { SidebarBadgesPreview } from './sidebar-badges';
 
@@ -12,7 +12,7 @@ describe('SidebarBadgesPreview', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SidebarBadgesPreview],
-      providers: [providePrimeNG({ theme: { preset: Aura } })],
+      providers: [provideOptimus({ theme: { preset: Aura } })],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SidebarBadgesPreview);

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
+import { provideOptimus } from '@openng/optimus-ui/config';
+import Aura from '@openng/optimus-ui-themes/aura';
 
 import { Blocks } from './blocks';
 import { SIDEBAR_BLOCKS } from './models/block-definition';
@@ -14,7 +14,7 @@ describe('Blocks', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Blocks],
-      providers: [provideRouter([]), providePrimeNG({ theme: { preset: Aura } })],
+      providers: [provideRouter([]), provideOptimus({ theme: { preset: Aura } })],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Blocks);

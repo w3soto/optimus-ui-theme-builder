@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
+import { provideOptimus } from '@openng/optimus-ui/config';
+import Aura from '@openng/optimus-ui-themes/aura';
 
 import { BlockCard } from './block-card';
 import { BlockDefinition } from '../models/block-definition';
@@ -31,7 +31,7 @@ describe('BlockCard', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BlockCard],
-      providers: [providePrimeNG({ theme: { preset: Aura } })],
+      providers: [provideOptimus({ theme: { preset: Aura } })],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BlockCard);

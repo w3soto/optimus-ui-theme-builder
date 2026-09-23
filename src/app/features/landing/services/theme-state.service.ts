@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 
-import { updatePrimaryPalette, updateSurfacePalette, usePreset } from '@primeuix/themes';
-import { PrimeNG } from 'primeng/config';
+import { updatePrimaryPalette, updateSurfacePalette, usePreset } from '@openng/optimus-ui-themes';
+import { Optimus } from '@openng/optimus-ui/config';
 
 import {
   DEFAULT_THEME_PRESET,
@@ -68,7 +68,7 @@ function paletteRef(name: string): Record<string, string> {
 
 @Injectable({ providedIn: 'root' })
 export class ThemeStateService {
-  private readonly primeNG = inject(PrimeNG);
+  private readonly Optimus = inject(Optimus);
 
   private readonly _selectedPrimary = signal('emerald');
   private readonly _selectedSurface = signal('slate');
@@ -120,7 +120,7 @@ export class ThemeStateService {
   }
 
   toggleRipple(value: boolean): void {
-    this.primeNG.ripple.set(value);
+    this.Optimus.ripple.set(value);
   }
 
   toggleRtl(value: boolean): void {

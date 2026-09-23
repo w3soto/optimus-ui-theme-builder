@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
-import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
+import { provideOptimus } from '@openng/optimus-ui/config';
+import Aura from '@openng/optimus-ui-themes/aura';
 
 import { TableBlock } from './table';
 
@@ -13,7 +13,7 @@ describe('TableBlock', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TableBlock],
-      providers: [providePrimeNG({ theme: { preset: Aura } })],
+      providers: [provideOptimus({ theme: { preset: Aura } })],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TableBlock);

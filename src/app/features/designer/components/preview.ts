@@ -1,23 +1,23 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Button } from 'primeng/button';
-import { InputText } from 'primeng/inputtext';
-import { Textarea } from 'primeng/textarea';
-import { Select } from 'primeng/select';
-import { Checkbox } from 'primeng/checkbox';
-import { RadioButton } from 'primeng/radiobutton';
-import { ToggleSwitch } from 'primeng/toggleswitch';
-import { InputNumber } from 'primeng/inputnumber';
-import { TableModule } from 'primeng/table';
-import { Card } from 'primeng/card';
-import { Fieldset } from 'primeng/fieldset';
-import { Message } from 'primeng/message';
-import { Tag } from 'primeng/tag';
-import { Badge } from 'primeng/badge';
-import { ProgressBar } from 'primeng/progressbar';
-import { Chip } from 'primeng/chip';
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
+import { Button } from '@openng/optimus-ui/button';
+import { InputText } from '@openng/optimus-ui/inputtext';
+import { Textarea } from '@openng/optimus-ui/textarea';
+import { Select } from '@openng/optimus-ui/select';
+import { Checkbox } from '@openng/optimus-ui/checkbox';
+import { RadioButton } from '@openng/optimus-ui/radiobutton';
+import { ToggleSwitch } from '@openng/optimus-ui/toggleswitch';
+import { InputNumber } from '@openng/optimus-ui/inputnumber';
+import { TableModule } from '@openng/optimus-ui/table';
+import { Card } from '@openng/optimus-ui/card';
+import { Fieldset } from '@openng/optimus-ui/fieldset';
+import { Message } from '@openng/optimus-ui/message';
+import { Tag } from '@openng/optimus-ui/tag';
+import { Badge } from '@openng/optimus-ui/badge';
+import { ProgressBar } from '@openng/optimus-ui/progressbar';
+import { Chip } from '@openng/optimus-ui/chip';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@openng/optimus-ui/tabs';
 
 @Component({
   selector: 'design-preview',

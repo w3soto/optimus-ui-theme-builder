@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
-import { Dialog } from 'primeng/dialog';
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
+import { Dialog } from '@openng/optimus-ui/dialog';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@openng/optimus-ui/tabs';
 
 import { CodeBlock } from './code-block';
 

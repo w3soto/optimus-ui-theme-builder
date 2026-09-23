@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
+import { provideOptimus } from '@openng/optimus-ui/config';
+import Aura from '@openng/optimus-ui-themes/aura';
 
 import { DesignEditor } from './editor';
 import { ThemeDesignerService } from '../services/theme-designer.service';
@@ -14,7 +14,7 @@ describe('DesignEditor', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [DesignEditor],
-      providers: [providePrimeNG({ theme: { preset: Aura } })],
+      providers: [provideOptimus({ theme: { preset: Aura } })],
     }).compileComponents();
 
     service = TestBed.inject(ThemeDesignerService);

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { PanelMenu } from 'primeng/panelmenu';
+import { PanelMenu } from '@openng/optimus-ui/panelmenu';
 
-import type { MenuItem } from 'primeng/api';
+import type { MenuItem } from '@openng/optimus-ui/api';
 
 import { DashboardContent } from './dashboard-content';
 

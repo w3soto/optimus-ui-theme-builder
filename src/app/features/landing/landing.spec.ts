@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
-import Aura from '@primeuix/themes/aura';
-import { providePrimeNG } from 'primeng/config';
+import Aura from '@openng/optimus-ui-themes/aura';
+import { provideOptimus } from '@openng/optimus-ui/config';
 
 import { Landing } from './landing';
 
@@ -10,7 +10,7 @@ describe('Landing', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Landing],
-      providers: [provideRouter([]), providePrimeNG({ theme: { preset: Aura } })],
+      providers: [provideRouter([]), provideOptimus({ theme: { preset: Aura } })],
     }).compileComponents();
   });
 
@@ -35,7 +35,7 @@ describe('Landing', () => {
 
     expect(el.querySelectorAll('h1').length).toBe(1);
     expect(el.querySelector('#hero-title')?.textContent).toContain(
-      'Design PrimeNG themes visually',
+      'Design Optimus themes visually',
     );
     expect(el.querySelector('app-live-dashboard')).toBeTruthy();
     expect(el.querySelectorAll('.feature-card').length).toBe(4);

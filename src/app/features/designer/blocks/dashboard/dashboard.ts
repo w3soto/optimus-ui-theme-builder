@@ -11,23 +11,23 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 
-import { TableModule } from 'primeng/table';
-import { Button } from 'primeng/button';
-import { Tag } from 'primeng/tag';
-import { TabsModule } from 'primeng/tabs';
-import { AvatarModule } from 'primeng/avatar';
-import { Card } from 'primeng/card';
-import { Drawer } from 'primeng/drawer';
-import { ChartModule } from 'primeng/chart';
-import { MultiSelect } from 'primeng/multiselect';
-import { ConfirmDialog } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
-import { InputText } from 'primeng/inputtext';
-import { IconField } from 'primeng/iconfield';
-import { InputIcon } from 'primeng/inputicon';
-import { Dialog } from 'primeng/dialog';
-import { InputNumber } from 'primeng/inputnumber';
-import { Tooltip } from 'primeng/tooltip';
+import { TableModule } from '@openng/optimus-ui/table';
+import { Button } from '@openng/optimus-ui/button';
+import { Tag } from '@openng/optimus-ui/tag';
+import { TabsModule } from '@openng/optimus-ui/tabs';
+import { AvatarModule } from '@openng/optimus-ui/avatar';
+import { Card } from '@openng/optimus-ui/card';
+import { Drawer } from '@openng/optimus-ui/drawer';
+import { ChartModule } from '@openng/optimus-ui/chart';
+import { MultiSelect } from '@openng/optimus-ui/multiselect';
+import { ConfirmDialog } from '@openng/optimus-ui/confirmdialog';
+import { ConfirmationService } from '@openng/optimus-ui/api';
+import { InputText } from '@openng/optimus-ui/inputtext';
+import { IconField } from '@openng/optimus-ui/iconfield';
+import { InputIcon } from '@openng/optimus-ui/inputicon';
+import { Dialog } from '@openng/optimus-ui/dialog';
+import { InputNumber } from '@openng/optimus-ui/inputnumber';
+import { Tooltip } from '@openng/optimus-ui/tooltip';
 
 export interface Column {
   field: string;

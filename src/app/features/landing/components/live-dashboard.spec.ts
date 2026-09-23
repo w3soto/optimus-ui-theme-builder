@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import Aura from '@primeuix/themes/aura';
-import { providePrimeNG } from 'primeng/config';
+import Aura from '@openng/optimus-ui-themes/aura';
+import { provideOptimus } from '@openng/optimus-ui/config';
 
 import { LiveDashboard } from './live-dashboard';
 
@@ -13,7 +13,7 @@ describe('LiveDashboard', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LiveDashboard],
-      providers: [providePrimeNG({ theme: { preset: Aura } })],
+      providers: [provideOptimus({ theme: { preset: Aura } })],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LiveDashboard);

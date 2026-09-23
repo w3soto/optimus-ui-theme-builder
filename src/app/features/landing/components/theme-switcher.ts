@@ -11,8 +11,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { fromEvent } from 'rxjs';
 
-import { Popover } from 'primeng/popover';
-import { ToggleSwitch } from 'primeng/toggleswitch';
+import { Popover } from '@openng/optimus-ui/popover';
+import { ToggleSwitch } from '@openng/optimus-ui/toggleswitch';
 
 import { ThemeStateService } from '../services/theme-state.service';
 

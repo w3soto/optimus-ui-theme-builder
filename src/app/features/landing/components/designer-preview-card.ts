@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
-import { Button } from 'primeng/button';
-import { InputText } from 'primeng/inputtext';
-import { Tag } from 'primeng/tag';
+import { Button } from '@openng/optimus-ui/button';
+import { InputText } from '@openng/optimus-ui/inputtext';
+import { Tag } from '@openng/optimus-ui/tag';
 
 type TokenLayer = 'primitive' | 'semantic' | 'component';
 

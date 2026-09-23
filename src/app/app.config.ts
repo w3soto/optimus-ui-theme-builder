@@ -3,13 +3,13 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { DEFAULT_THEME_PRESET, THEME_PRESETS } from './theme-presets';
-import { providePrimeNG } from 'primeng/config';
+import { provideOptimus } from '@openng/optimus-ui/config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    providePrimeNG({
+    provideOptimus({
       theme: {
         preset: THEME_PRESETS[DEFAULT_THEME_PRESET],
         options: {

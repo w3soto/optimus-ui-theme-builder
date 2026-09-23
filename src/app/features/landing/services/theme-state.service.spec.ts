@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import Aura from '@primeuix/themes/aura';
-import { providePrimeNG } from 'primeng/config';
+import Aura from '@openng/optimus-ui-themes/aura';
+import { provideOptimus } from '@openng/optimus-ui/config';
 
 import { ThemeState, ThemeStateService } from './theme-state.service';
 
@@ -14,7 +14,7 @@ describe('ThemeStateService', () => {
     delete (document as Document & { __themeState?: ThemeState }).__themeState;
 
     TestBed.configureTestingModule({
-      providers: [providePrimeNG({ theme: { preset: Aura } })],
+      providers: [provideOptimus({ theme: { preset: Aura } })],
     });
     service = TestBed.inject(ThemeStateService);
   });

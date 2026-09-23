@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { Button } from 'primeng/button';
-import { InputText } from 'primeng/inputtext';
-import { ProgressBar } from 'primeng/progressbar';
-import { TableModule } from 'primeng/table';
-import { Tag } from 'primeng/tag';
+import { Button } from '@openng/optimus-ui/button';
+import { InputText } from '@openng/optimus-ui/inputtext';
+import { ProgressBar } from '@openng/optimus-ui/progressbar';
+import { TableModule } from '@openng/optimus-ui/table';
+import { Tag } from '@openng/optimus-ui/tag';
 
 type CustomerStatus = 'unqualified' | 'qualified' | 'negotiation' | 'new' | 'renewal' | 'proposal';
 

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
-import { Button } from 'primeng/button';
+import { Button } from '@openng/optimus-ui/button';
 import { DesignPreview } from '../preview/preview';
 import { LoginBlock } from '../login/login';
 import { DashboardBlock } from '../dashboard/dashboard';

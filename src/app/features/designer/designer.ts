@@ -7,8 +7,8 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Splitter } from 'primeng/splitter';
-import { Tooltip } from 'primeng/tooltip';
+import { Splitter } from '@openng/optimus-ui/splitter';
+import { Tooltip } from '@openng/optimus-ui/tooltip';
 
 import { ThemeDesignerService } from './services/theme-designer.service';
 import { CreateTheme } from './components/create-theme';

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Fieldset } from 'primeng/fieldset';
+import { Fieldset } from '@openng/optimus-ui/fieldset';
 
 import { ThemeDesignerService } from '../services/theme-designer.service';
 import { TokenField } from './token-field';

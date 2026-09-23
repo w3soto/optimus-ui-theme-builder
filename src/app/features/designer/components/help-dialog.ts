@@ -4,9 +4,9 @@ import {
   AccordionContent,
   AccordionHeader,
   AccordionPanel,
-} from 'primeng/accordion';
-import { Dialog } from 'primeng/dialog';
-import { InputText } from 'primeng/inputtext';
+} from '@openng/optimus-ui/accordion';
+import { Dialog } from '@openng/optimus-ui/dialog';
+import { InputText } from '@openng/optimus-ui/inputtext';
 
 interface HelpToken {
   name: string;
@@ -253,7 +253,7 @@ export const HELP_CONTENT: HelpCategory[] = [
       {
         title: 'Token Hierarchy',
         description:
-          'PrimeNG uses a three-layer token system: Primitive → Semantic → Component. Primitive tokens are raw values. Semantic tokens reference primitives and provide meaning. Component tokens optionally override semantic tokens for specific components.',
+          'Optimus uses a three-layer token system: Primitive → Semantic → Component. Primitive tokens are raw values. Semantic tokens reference primitives and provide meaning. Component tokens optionally override semantic tokens for specific components.',
         tips: [
           'Changes to primitive tokens cascade through semantic and component tokens.',
           'Semantic tokens provide the bulk of your theming.',

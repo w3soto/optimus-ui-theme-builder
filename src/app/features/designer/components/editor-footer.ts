@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { Button } from 'primeng/button';
-import { Dialog } from 'primeng/dialog';
-import { Textarea } from 'primeng/textarea';
+import { Button } from '@openng/optimus-ui/button';
+import { Dialog } from '@openng/optimus-ui/dialog';
+import { Textarea } from '@openng/optimus-ui/textarea';
 
 import { ThemeDesignerService } from '../services/theme-designer.service';
 import { HelpDialog } from './help-dialog';

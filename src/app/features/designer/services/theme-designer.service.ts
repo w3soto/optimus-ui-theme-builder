@@ -1,5 +1,5 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { $dt, usePreset } from '@primeuix/themes';
+import { $dt, usePreset } from '@openng/optimus-ui-themes';
 
 export interface AcToken {
   name: string;

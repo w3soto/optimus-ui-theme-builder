@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { usePreset } from '@primeuix/themes';
+import { usePreset } from '@openng/optimus-ui-themes';
 
 import { ThemeDesignerService } from '../services/theme-designer.service';
 

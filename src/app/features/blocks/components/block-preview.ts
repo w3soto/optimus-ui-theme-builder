@@ -10,11 +10,11 @@ import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NgComponentOutlet } from '@angular/common';
 
-import { updatePrimaryPalette, updateSurfacePalette, usePreset } from '@primeuix/themes';
-import Aura from '@primeuix/themes/aura';
-import Lara from '@primeuix/themes/lara';
-import Material from '@primeuix/themes/material';
-import Nora from '@primeuix/themes/nora';
+import { updatePrimaryPalette, updateSurfacePalette, usePreset } from '@openng/optimus-ui-themes';
+import Aura from '@openng/optimus-ui-themes/aura';
+import Lara from '@openng/optimus-ui-themes/lara';
+import Material from '@openng/optimus-ui-themes/material';
+import Nora from '@openng/optimus-ui-themes/nora';
 
 import { SIDEBAR_BLOCKS } from '../models/block-definition';
 

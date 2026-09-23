@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { afterNextRender, ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 
 import { ChartData, ChartOptions } from 'chart.js';
-import { ChartModule } from 'primeng/chart';
+import { ChartModule } from '@openng/optimus-ui/chart';
 
 type Period = 'Weekly' | 'Monthly' | 'Yearly';
 

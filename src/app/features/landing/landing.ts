@@ -94,7 +94,7 @@ export class Landing {
       icon: '/landing/icon-ts.svg',
       title: 'Typed Theme Export',
       description:
-        'Export a typed PrimeNG preset that fits directly into your Angular application.',
+        'Export a typed Optimus preset that fits directly into your Angular application.',
     },
   ];
 

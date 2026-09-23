@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { Tooltip } from 'primeng/tooltip';
+import { Tooltip } from '@openng/optimus-ui/tooltip';
 
 import { DashboardContent } from './dashboard-content';
 

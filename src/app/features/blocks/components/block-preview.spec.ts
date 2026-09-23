@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
+import { provideOptimus } from '@openng/optimus-ui/config';
+import Aura from '@openng/optimus-ui-themes/aura';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
@@ -29,7 +29,7 @@ describe('BlockPreview', () => {
         imports: [BlockPreview],
         providers: [
           provideRouter([]),
-          providePrimeNG({ theme: { preset: Aura } }),
+          provideOptimus({ theme: { preset: Aura } }),
           { provide: ActivatedRoute, useValue: fakeActivatedRoute(SIDEBAR_BLOCKS[0].id) },
         ],
       }).compileComponents();
@@ -64,7 +64,7 @@ describe('BlockPreview', () => {
         imports: [BlockPreview],
         providers: [
           provideRouter([]),
-          providePrimeNG({ theme: { preset: Aura } }),
+          provideOptimus({ theme: { preset: Aura } }),
           { provide: ActivatedRoute, useValue: fakeActivatedRoute('nonexistent-block') },
         ],
       }).compileComponents();
