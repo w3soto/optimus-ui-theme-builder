@@ -1,15 +1,13 @@
 # Theme Studio
 
+> This is a fork of [mkccl/prime-ng-theme-fe](https://github.com/mkccl/prime-ng-theme-fe) by
+> Michael Krause, migrated from PrimeNG to Optimus UI.
+
 An independent visual design editor for creating production-ready
-[PrimeNG](https://primeng.org/) themes.
-Start from an official preset, edit its design tokens, inspect the result in a live PrimeNG
+[Optimus UI](https://optimus.openng.org/) themes.
+Start from an official preset, edit its design tokens, inspect the result in a live Optimus UI
 preview, and export a typed preset that can be owned and maintained with the rest of your Angular
 application.
-
-Theme Studio is not affiliated with or endorsed by PrimeTek. PrimeNG is referenced only to
-describe compatibility with the PrimeNG component library.
-
-[Live demo](https://prime-ng-theme-fe.vercel.app/) · [Designer](https://prime-ng-theme-fe.vercel.app/designer) · [Changelog](https://prime-ng-theme-fe.vercel.app/changelog)
 
 ## What Theme Studio does
 
@@ -34,11 +32,11 @@ The responsive landing page is based on the structure and visual language of
 [Optimus UI](https://optimus.openng.org/). It includes:
 
 - A compact responsive topbar, project announcement, and direct designer action
-- A live analytics dashboard that responds to the active PrimeNG theme
+- A live analytics dashboard that responds to the active Optimus UI theme
 - Mobile sample switching for responsive product previews
 - An honest capability overview focused on the Design Editor, Accessibility, Responsive Preview,
   and Typed Theme Export
-- A searchable, sortable, selectable, and paginated PrimeNG customer preview
+- A searchable, sortable, selectable, and paginated Optimus UI customer preview
 - Direct access to the designer, changelog, source repository, and related resources
 
 ## Application routes
@@ -53,7 +51,7 @@ The responsive landing page is based on the structure and visual language of
 
 1. Open `/designer`, enter a theme name, and select Aura, Material, Lara, or Nora.
 2. Edit primitive, semantic, component, custom, or settings tokens in the left panel.
-3. Use the preview navigation to inspect both individual PrimeNG components and complete screens.
+3. Use the preview navigation to inspect both individual Optimus UI components and complete screens.
 4. Select **Apply** to apply the current preset to the full designer.
 5. Select **Download** to copy the shareable token or download the TypeScript preset.
 6. Restore the theme later by importing the token or opening `/designer?theme=<token>`.
@@ -61,8 +59,8 @@ The responsive landing page is based on the structure and visual language of
 ## Tech stack
 
 - Angular 21 standalone components, signals, and OnPush change detection
-- PrimeNG 21 and `@primeuix/themes`
-- Tailwind CSS 4
+- Optimus UI (`@openng/optimus-ui`) and `@openng/optimus-ui-themes`
+- Tailwind CSS 4 with `@openng/optimus-ui-tailwindcss`
 - Chart.js
 - Vitest and jsdom
 
