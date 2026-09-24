@@ -8,6 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Tooltip } from '@openng/optimus-ui/tooltip';
 
 import { AcToken, ThemeDesignerService } from '../services/theme-designer.service';
 
@@ -16,11 +17,27 @@ let nextId = 0;
 @Component({
   selector: 'design-token-field',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, Tooltip],
   template: `
     <div class="flex flex-col gap-0.5">
-      <label class="text-xs text-[var(--p-text-muted-color)] capitalize truncate">
-        {{ label() }}
+      <label
+        class="flex items-center gap-1 min-w-0 text-xs text-[var(--p-text-muted-color)] capitalize"
+        [class.font-bold]="isChanged()"
+      >
+        <span class="truncate">{{ label() }}</span>
+        @if (isChanged()) {
+          <button
+            type="button"
+            class="inline-flex shrink-0 items-center p-0 border-0 bg-transparent text-inherit
+              cursor-pointer rounded hover:text-[var(--p-primary-color)]"
+            [attr.aria-label]="originalTooltip()"
+            [pTooltip]="originalTooltip()"
+            tooltipPosition="top"
+            (click)="revert()"
+          >
+            <i class="pi pi-undo text-[1em]!" aria-hidden="true"></i>
+          </button>
+        }
       </label>
       <div class="relative">
         <input
@@ -58,12 +75,36 @@ export class TokenField {
   readonly label = input.required<string>();
   readonly type = input<string | undefined>(undefined);
   readonly switchable = input(false);
+  /** Token path in the preset (e.g. `semantic.primary.500`); enables the changed marker. */
+  readonly path = input<string | undefined>(undefined);
 
   readonly modelValue = model<string | undefined>(undefined);
 
   readonly listId = `token-field-list-${nextId++}`;
 
   private readonly query = signal('');
+
+  private readonly originalValue = computed(() => {
+    const path = this.path();
+    return path ? this.designerService.originalValueAt(path) : undefined;
+  });
+
+  protected readonly isChanged = computed(() => {
+    if (!this.path() || !this.designerService.hasKnownOriginal()) {
+      return false;
+    }
+    return (this.modelValue() ?? '') !== (this.originalValue() ?? '');
+  });
+
+  protected readonly originalTooltip = computed(() => {
+    const original = this.originalValue();
+    const text = original === undefined || original === '' ? '(not set)' : String(original);
+    return `Revert to original: ${text}`;
+  });
+
+  protected revert(): void {
+    this.modelValue.set(this.originalValue() as string | undefined);
+  }
 
   protected readonly isColorType = computed(() => {
     if (this.type() === 'color') {

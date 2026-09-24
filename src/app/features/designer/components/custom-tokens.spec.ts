@@ -106,4 +106,23 @@ describe('CustomTokens', () => {
     const inputs = el.querySelectorAll('input[type="text"]');
     expect(inputs.length).toBe(2); // one name + one value
   });
+
+  it('should reload tokens after the theme is reset', () => {
+    service.createThemeFromPreset('Reset', { extend: { accent: { color: '#ff0000' } } });
+    fixture = TestBed.createComponent(CustomTokens);
+    fixture.detectChanges();
+    el = fixture.nativeElement as HTMLElement;
+
+    const addBtn = Array.from(el.querySelectorAll('button')).find((b) =>
+      b.textContent?.includes('Add New'),
+    ) as HTMLButtonElement;
+    addBtn.click();
+    fixture.detectChanges();
+    expect(el.querySelectorAll('input[type="text"]').length).toBe(4);
+
+    service.resetTheme();
+    fixture.detectChanges();
+
+    expect(el.querySelectorAll('input[type="text"]').length).toBe(2);
+  });
 });

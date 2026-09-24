@@ -12,6 +12,7 @@ describe('EditorFooter', () => {
   let service: ThemeDesignerService;
 
   beforeEach(async () => {
+    localStorage.clear();
     await TestBed.configureTestingModule({
       imports: [EditorFooter],
       providers: [provideOptimus({ theme: { preset: Aura } })],
@@ -100,5 +101,52 @@ describe('EditorFooter', () => {
     tsBtn.click();
 
     expect(downloadSpy).toHaveBeenCalled();
+  });
+
+  it('should render Reset as the first button', () => {
+    const first = el.querySelector('button');
+    expect(first?.textContent).toContain('Reset');
+  });
+
+  it('should disable Reset when the starting point is unknown', () => {
+    const button = el.querySelector('button') as HTMLButtonElement;
+    expect(button.disabled).toBe(true);
+    expect(button.closest('span')?.title).toContain('starting point is unknown');
+  });
+
+  it('should disable Reset when there are no changes', () => {
+    service.createThemeFromPreset('Fresh', { primitive: {} });
+    fixture.detectChanges();
+
+    const button = el.querySelector('button') as HTMLButtonElement;
+    expect(button.disabled).toBe(true);
+    expect(button.closest('span')?.title).toBe('No changes to reset');
+  });
+
+  it('should ask for confirmation before resetting', () => {
+    service.createThemeFromPreset('Edited', { primitive: {} });
+    service.designer.update((prev) => ({
+      ...prev,
+      theme: { ...prev.theme!, preset: { primitive: { blue: { 500: '#fff' } } } },
+    }));
+    fixture.detectChanges();
+    const resetSpy = vi.spyOn(service, 'resetTheme');
+    const button = el.querySelector('button') as HTMLButtonElement;
+    expect(button.disabled).toBe(false);
+    button.click();
+    fixture.detectChanges();
+
+    expect(component['resetDialogVisible']()).toBe(true);
+    expect(resetSpy).not.toHaveBeenCalled();
+  });
+
+  it('should reset and close the dialog when confirmed', () => {
+    const resetSpy = vi.spyOn(service, 'resetTheme');
+    component['resetDialogVisible'].set(true);
+
+    component['reset']();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(component['resetDialogVisible']()).toBe(false);
   });
 });

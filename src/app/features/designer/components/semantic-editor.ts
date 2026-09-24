@@ -70,6 +70,7 @@ interface TokenEntry {
                       [modelValue]="$any(item.value)"
                       (modelValueChange)="onTokenChange(item.key, $event)"
                       [label]="camelCaseToSpaces(item.key)"
+                      [path]="'semantic.' + item.key"
                     />
                   }
                 </div>
@@ -102,6 +103,7 @@ interface TokenEntry {
                               [modelValue]="$any(item.value)"
                               (modelValueChange)="onTokenChange('colorScheme.light.' + item.key, $event)"
                               [label]="camelCaseToSpaces(item.key)"
+                              [path]="'semantic.colorScheme.light.' + item.key"
                             />
                           }
                         </div>
@@ -125,6 +127,7 @@ interface TokenEntry {
                               [modelValue]="$any(item.value)"
                               (modelValueChange)="onTokenChange('colorScheme.dark.' + item.key, $event)"
                               [label]="camelCaseToSpaces(item.key)"
+                              [path]="'semantic.colorScheme.dark.' + item.key"
                             />
                           }
                         </div>

@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { Fieldset } from '@openng/optimus-ui/fieldset';
 import { Select } from '@openng/optimus-ui/select';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@openng/optimus-ui/tabs';
+import { Textarea } from '@openng/optimus-ui/textarea';
+import { Tooltip } from '@openng/optimus-ui/tooltip';
 
 import { ThemeDesignerService } from '../services/theme-designer.service';
 import { ComponentSection } from './component-section';
@@ -31,6 +33,8 @@ function capitalize(str: string): string {
     Tab,
     TabPanels,
     TabPanel,
+    Textarea,
+    Tooltip,
     ComponentSection,
   ],
   template: `
@@ -89,6 +93,43 @@ function capitalize(str: string): string {
             <span class="text-[var(--p-text-muted-color)]">No color scheme tokens</span>
           }
         </p-fieldset>
+
+        <p-fieldset legend="CSS" [toggleable]="true">
+          <div class="flex flex-col gap-1">
+            <div class="flex items-center gap-1 text-xs text-[var(--p-text-muted-color)]">
+              <label
+                for="component-css"
+                class="flex items-center gap-1"
+                [class.font-bold]="cssChanged()"
+              >
+                Custom CSS for this component
+              </label>
+              @if (cssChanged()) {
+                <button
+                  type="button"
+                  class="inline-flex items-center p-0 border-0 bg-transparent text-inherit
+                    cursor-pointer rounded hover:text-[var(--p-primary-color)]"
+                  aria-label="Revert CSS to original"
+                  pTooltip="Revert CSS to original"
+                  tooltipPosition="top"
+                  (click)="revertCss()"
+                >
+                  <i class="pi pi-undo text-[1em]!" aria-hidden="true"></i>
+                </button>
+              }
+            </div>
+            <textarea
+              pTextarea
+              id="component-css"
+              rows="10"
+              spellcheck="false"
+              class="w-full font-mono text-xs"
+              placeholder="No custom CSS. Use dt('token.name') to reference design tokens."
+              [value]="css()"
+              (input)="onCssChange($event)"
+            ></textarea>
+          </div>
+        </p-fieldset>
       }
     </div>
   `,
@@ -128,6 +169,53 @@ export class ComponentEditor {
   });
 
   protected readonly hasCommonTokens = computed(() => this.commonKeys().length > 0);
+
+  protected readonly css = computed(() => {
+    const css = this.tokens()?.['css'];
+    return typeof css === 'string' ? css : '';
+  });
+
+  private readonly originalCss = computed(() => {
+    const key = this.selectedComponent();
+    const css = key ? this.designerService.originalValueAt(`components.${key}.css`) : undefined;
+    return typeof css === 'string' ? css : '';
+  });
+
+  protected readonly cssChanged = computed(
+    () => this.designerService.hasKnownOriginal() && this.css() !== this.originalCss(),
+  );
+
+  protected onCssChange(event: Event): void {
+    this.setCss((event.target as HTMLTextAreaElement).value);
+  }
+
+  protected revertCss(): void {
+    this.setCss(this.originalCss());
+  }
+
+  private setCss(css: string): void {
+    const key = this.selectedComponent();
+    if (!key) {
+      return;
+    }
+    this.designerService.designer.update((prev) => {
+      const { css: _previous, ...component } = prev.theme!.preset.components[key] ?? {};
+      return {
+        ...prev,
+        theme: {
+          ...prev.theme!,
+          preset: {
+            ...prev.theme!.preset,
+            components: {
+              ...prev.theme!.preset.components,
+              // An empty value removes the property instead of storing ''.
+              [key]: css ? { ...component, css } : component,
+            },
+          },
+        },
+      };
+    });
+  }
 
   protected readonly hasColorScheme = computed(() => {
     const t = this.tokens();

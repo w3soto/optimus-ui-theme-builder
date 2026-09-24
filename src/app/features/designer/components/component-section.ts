@@ -44,6 +44,7 @@ function setObjectProperty(obj: Record<string, unknown>, path: string, value: un
               (modelValueChange)="onTokenChange(item.key, $event)"
               [label]="camelCaseToSpaces(item.key)"
               [type]="isColor(item.key) ? 'color' : undefined"
+              [path]="'components.' + componentKey() + '.' + path() + '.' + item.key"
             />
           }
         </div>

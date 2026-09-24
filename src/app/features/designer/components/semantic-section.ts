@@ -41,6 +41,7 @@ interface TokenEntry {
               [modelValue]="$any(item.value)"
               (modelValueChange)="onTokenChange(item.key, $event)"
               [label]="camelCaseToSpaces(item.key)"
+              [path]="'semantic.' + path() + '.' + item.key"
             />
           }
         </div>

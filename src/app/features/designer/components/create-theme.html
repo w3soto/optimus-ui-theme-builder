@@ -5,6 +5,63 @@
     <p>Pick a proven visual language, then make every token your own.</p>
   </header>
 
+  @if (savedThemes.themes().length) {
+    <section class="create-section" aria-labelledby="saved-label">
+      <div class="section-label" id="saved-label">Saved themes</div>
+      <ul class="saved-list">
+        @for (theme of savedThemes.themes(); track theme.id) {
+          <li class="saved-theme">
+            <span class="saved-copy">
+              <strong>{{ theme.name }}</strong>
+              <small>Edited {{ theme.updatedAt | date: 'medium' }}</small>
+            </span>
+            <button type="button" class="saved-open" (click)="openSavedTheme(theme.id)">
+              Open
+            </button>
+            <button
+              type="button"
+              class="saved-delete"
+              [attr.aria-label]="'Delete ' + theme.name"
+              title="Delete"
+              (click)="pendingDelete.set(theme)"
+            >
+              <i class="pi pi-trash" aria-hidden="true"></i>
+            </button>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+
+  @if (savedThemes.error()) {
+    <p class="import-error saved-error">
+      <i class="pi pi-exclamation-triangle" aria-hidden="true"></i>{{ savedThemes.error() }}
+    </p>
+  }
+
+  <p-dialog
+    header="Delete saved theme?"
+    [visible]="pendingDelete() !== null"
+    (visibleChange)="onDeleteDialogVisibleChange($event)"
+    [modal]="true"
+    [style]="{ width: '26rem' }"
+    [draggable]="false"
+  >
+    <p class="delete-message">
+      <strong>{{ pendingDelete()?.name }}</strong> will be removed from this browser. This can't be
+      undone.
+    </p>
+    <ng-template #footer>
+      <p-button
+        label="Cancel"
+        severity="secondary"
+        [text]="true"
+        (click)="pendingDelete.set(null)"
+      />
+      <p-button label="Delete" severity="danger" (click)="confirmDelete()" />
+    </ng-template>
+  </p-dialog>
+
   <section class="create-section" aria-labelledby="starter-label">
     <div class="section-label" id="starter-label">Starter theme</div>
     <div class="starter-list" role="radiogroup" aria-labelledby="starter-label">

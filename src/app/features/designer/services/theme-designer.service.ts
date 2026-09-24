@@ -1,5 +1,7 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { $dt, usePreset } from '@openng/optimus-ui-themes';
+
+import { SavedThemesService, ThemeSnapshot } from './saved-themes.service';
 
 export interface AcToken {
   name: string;
@@ -15,6 +17,7 @@ export interface ThemeConfig {
 }
 
 export interface ThemeState {
+  id?: string;
   name: string;
   preset: any;
   config: ThemeConfig;
@@ -86,6 +89,42 @@ export class ThemeDesignerService {
   });
 
   readonly acTokens = computed(() => this.designer().acTokens);
+
+  private readonly savedThemes = inject(SavedThemesService);
+  private readonly currentTheme = computed(() => this.designer().theme);
+  /** The starting point Reset returns to; null when it is unknown (themes saved before Reset existed). */
+  private readonly originalTheme = signal<ThemeSnapshot | null>(null);
+
+  readonly hasKnownOriginal = computed(() => this.originalTheme() !== null);
+
+  /** The token's value at the theme's starting point (e.g. `semantic.primary.500`). */
+  originalValueAt(path: string): unknown {
+    return path.split('.').reduce<unknown>((node, segment) => {
+      if (node === null || typeof node !== 'object') {
+        return undefined;
+      }
+      return (node as Record<string, unknown>)[segment];
+    }, this.originalTheme()?.preset);
+  }
+
+  /** True when there are edits that Reset would discard. */
+  readonly canReset = computed(() => {
+    const theme = this.currentTheme();
+    const original = this.originalTheme();
+    if (!theme || !original) {
+      return false;
+    }
+    return (
+      JSON.stringify(theme.preset) !== JSON.stringify(original.preset) ||
+      JSON.stringify(theme.config) !== JSON.stringify(original.config)
+    );
+  });
+
+  /**
+   * Increments whenever Reset replaces the theme, so components holding local copies of tokens
+   * can reload.
+   */
+  readonly reloadCount = signal(0);
 
   resolveColor(token: string | undefined): string {
     if (!token) {
@@ -190,6 +229,7 @@ export class ThemeDesignerService {
     }
     usePreset(theme.preset);
     this.refreshACTokens();
+    this.saveCurrentTheme();
     if (showMessage) {
       console.info('Theme applied successfully.');
     }
@@ -205,6 +245,7 @@ export class ThemeDesignerService {
     this.designer.update((prev) => ({
       ...prev,
       theme: {
+        id: crypto.randomUUID(),
         name,
         preset: cloned,
         config: themeConfig,
@@ -214,8 +255,10 @@ export class ThemeDesignerService {
       acTokens: [],
     }));
 
+    this.originalTheme.set({ preset: structuredClone(preset), config: themeConfig });
     usePreset(cloned);
     this.refreshACTokens();
+    this.saveCurrentTheme();
     document.documentElement.style.fontSize = themeConfig.fontSize;
     void this.applyFont(themeConfig.fontFamily);
   }
@@ -336,7 +379,10 @@ export default ${presetJson} as const;
     if (!theme) {
       return false;
     }
-    this.applyImportedTheme(theme);
+    this.applyImportedTheme(theme, {
+      preset: structuredClone(theme.preset),
+      config: theme.config,
+    });
     return true;
   }
 
@@ -360,7 +406,10 @@ export default ${presetJson} as const;
   async importThemeFromUrl(compressed: string): Promise<boolean> {
     const theme = await this.decompressThemeFromUrl(compressed);
     if (!theme) return false;
-    this.applyImportedTheme(theme);
+    this.applyImportedTheme(theme, {
+      preset: structuredClone(theme.preset),
+      config: theme.config,
+    });
     return true;
   }
 
@@ -389,17 +438,74 @@ export default ${presetJson} as const;
     }
   }
 
-  private applyImportedTheme(theme: ThemeState): void {
+  openSavedTheme(id: string): boolean {
+    const saved = this.savedThemes.get(id);
+    if (!saved) {
+      return false;
+    }
+    this.applyImportedTheme(
+      {
+        id: saved.id,
+        name: saved.name,
+        preset: structuredClone(saved.preset),
+        config: saved.config,
+      },
+      saved.original ?? null,
+    );
+    void this.applyFont(saved.config.fontFamily);
+    return true;
+  }
+
+  deleteSavedTheme(id: string): void {
+    this.savedThemes.remove(id);
+  }
+
+  resetTheme(): void {
+    const original = this.originalTheme();
+    if (!this.designer().theme || !original) {
+      return;
+    }
     this.designer.update((prev) => ({
       ...prev,
-      theme,
+      theme: { ...prev.theme!, preset: structuredClone(original.preset), config: original.config },
+    }));
+    this.applyTheme();
+    this.reloadCount.update((count) => count + 1);
+    document.documentElement.style.fontSize = original.config.fontSize;
+    void this.applyFont(original.config.fontFamily);
+  }
+
+  private applyImportedTheme(theme: ThemeState, original: ThemeSnapshot | null): void {
+    this.originalTheme.set(original);
+    this.designer.update((prev) => ({
+      ...prev,
+      theme: { ...theme, id: theme.id ?? crypto.randomUUID() },
       activeView: 'editor',
       activeTab: 0,
       acTokens: [],
     }));
     usePreset(theme.preset);
     this.refreshACTokens();
+    if (!theme.id) {
+      this.saveCurrentTheme();
+    }
     document.documentElement.style.fontSize = theme.config.fontSize;
+  }
+
+  /** Stores the applied theme; unapplied edits are never saved. */
+  private saveCurrentTheme(): void {
+    const theme = this.designer().theme;
+    if (!theme?.id) {
+      return;
+    }
+    this.savedThemes.save({
+      id: theme.id,
+      name: theme.name,
+      preset: theme.preset,
+      config: theme.config,
+      updatedAt: Date.now(),
+      original: this.originalTheme() ?? undefined,
+    });
   }
 
   private serializePreset(obj: unknown, indent = 2): string {
