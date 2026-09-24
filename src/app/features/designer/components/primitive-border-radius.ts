@@ -11,12 +11,36 @@ import { TokenField } from './token-field';
   template: `
     <p-fieldset legend="Border Radius" [toggleable]="true">
       <div class="grid grid-cols-3 gap-2">
-        <design-token-field [(modelValue)]="borderRadiusNone" label="None" />
-        <design-token-field [(modelValue)]="borderRadiusXs" label="Extra Small" />
-        <design-token-field [(modelValue)]="borderRadiusSm" label="Small" />
-        <design-token-field [(modelValue)]="borderRadiusMd" label="Medium" />
-        <design-token-field [(modelValue)]="borderRadiusLg" label="Large" />
-        <design-token-field [(modelValue)]="borderRadiusXl" label="Extra Large" />
+        <design-token-field
+          [(modelValue)]="borderRadiusNone"
+          path="primitive.borderRadius.none"
+          label="None"
+        />
+        <design-token-field
+          [(modelValue)]="borderRadiusXs"
+          path="primitive.borderRadius.xs"
+          label="Extra Small"
+        />
+        <design-token-field
+          [(modelValue)]="borderRadiusSm"
+          path="primitive.borderRadius.sm"
+          label="Small"
+        />
+        <design-token-field
+          [(modelValue)]="borderRadiusMd"
+          path="primitive.borderRadius.md"
+          label="Medium"
+        />
+        <design-token-field
+          [(modelValue)]="borderRadiusLg"
+          path="primitive.borderRadius.lg"
+          label="Large"
+        />
+        <design-token-field
+          [(modelValue)]="borderRadiusXl"
+          path="primitive.borderRadius.xl"
+          label="Extra Large"
+        />
       </div>
     </p-fieldset>
   `,

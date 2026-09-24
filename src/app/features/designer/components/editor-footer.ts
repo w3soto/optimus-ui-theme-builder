@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Button } from '@openng/optimus-ui/button';
 import { Dialog } from '@openng/optimus-ui/dialog';
 import { Textarea } from '@openng/optimus-ui/textarea';
@@ -11,7 +11,18 @@ import { HelpDialog } from './help-dialog';
   standalone: true,
   imports: [Button, Dialog, HelpDialog, Textarea],
   template: `
-    <div class="flex justify-end gap-2">
+    <div class="flex justify-end items-center gap-2">
+      <span [title]="resetHint()">
+        <p-button
+          label="Reset"
+          icon="pi pi-refresh"
+          severity="secondary"
+          [text]="true"
+          [disabled]="!designerService.canReset()"
+          (click)="resetDialogVisible.set(true)"
+        />
+      </span>
+      <div class="flex-1"></div>
       <p-button
         icon="pi pi-question-circle"
         severity="secondary"
@@ -31,6 +42,27 @@ import { HelpDialog } from './help-dialog';
     </div>
 
     <design-help-dialog [(helpVisible)]="helpVisible" />
+
+    <p-dialog
+      header="Reset all changes?"
+      [(visible)]="resetDialogVisible"
+      [modal]="true"
+      [style]="{ width: '26rem' }"
+      [draggable]="false"
+    >
+      <p class="text-sm text-muted-color m-0">
+        This discards every edit and returns the theme to the preset it was started from.
+      </p>
+      <ng-template #footer>
+        <p-button
+          label="Cancel"
+          severity="secondary"
+          [text]="true"
+          (click)="resetDialogVisible.set(false)"
+        />
+        <p-button label="Reset" severity="danger" (click)="reset()" />
+      </ng-template>
+    </p-dialog>
 
     <p-dialog
       header="Export Theme"
@@ -74,10 +106,19 @@ import { HelpDialog } from './help-dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditorFooter {
-  private readonly designerService = inject(ThemeDesignerService);
+  protected readonly designerService = inject(ThemeDesignerService);
 
   protected readonly dialogVisible = signal(false);
   protected readonly helpVisible = signal(false);
+  protected readonly resetDialogVisible = signal(false);
+  protected readonly resetHint = computed(() => {
+    if (!this.designerService.hasKnownOriginal()) {
+      return 'This theme was saved before Reset was available, so its starting point is unknown';
+    }
+    return this.designerService.canReset()
+      ? 'Discard all changes and return to the starting preset'
+      : 'No changes to reset';
+  });
   protected readonly base64Value = signal('');
   protected readonly copied = signal(false);
 
@@ -107,6 +148,11 @@ export class EditorFooter {
 
   protected downloadFile(): void {
     this.designerService.downloadTheme();
+  }
+
+  protected reset(): void {
+    this.designerService.resetTheme();
+    this.resetDialogVisible.set(false);
   }
 
   protected apply(): void {

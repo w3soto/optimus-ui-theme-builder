@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal, untracked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { usePreset } from '@openng/optimus-ui-themes';
 
@@ -82,18 +82,26 @@ interface TokenEntry {
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CustomTokens implements OnInit {
+export class CustomTokens {
   protected readonly designerService = inject(ThemeDesignerService);
 
   protected readonly tokens = signal<TokenEntry[]>([]);
 
-  ngOnInit(): void {
+  constructor() {
+    // Load on creation and again whenever the theme is reset.
+    effect(() => {
+      this.designerService.reloadCount();
+      untracked(() => this.loadTokens());
+    });
+  }
+
+  private loadTokens(): void {
     const preset = this.designerService.designer().theme?.preset;
+    const entries: TokenEntry[] = [];
     if (preset?.extend) {
-      const entries: TokenEntry[] = [];
       this.objectToDotNotation(preset.extend, '', entries);
-      this.tokens.set(entries);
     }
+    this.tokens.set(entries);
   }
 
   protected addToken(): void {

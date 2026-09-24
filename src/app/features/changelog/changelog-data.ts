@@ -7,6 +7,33 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.7.0',
+    date: '2026-09-24',
+    title: 'Saved Themes',
+    changes: [
+      {
+        type: 'added',
+        text: 'Custom themes are saved in the browser whenever they are applied and can be reopened or deleted from the Create Theme screen',
+      },
+      {
+        type: 'added',
+        text: 'Reset button that discards every edit and returns the theme to the preset it was started from, after a confirmation',
+      },
+      {
+        type: 'added',
+        text: 'Changed tokens are shown with a bold label and an undo icon that reverts the token to its original value, shown in its tooltip',
+      },
+      {
+        type: 'added',
+        text: 'CSS section in the component editor for viewing and editing each component\'s custom CSS',
+      },
+      {
+        type: 'fixed',
+        text: 'Bootstrap starter colors now follow its bsblue and bsgray palettes, so editing those colors updates the theme',
+      },
+    ],
+  },
+  {
     version: '1.6.0',
     date: '2026-07-25',
     title: 'Starter Themes & Live Designer Preview',

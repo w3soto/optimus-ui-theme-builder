@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideOptimus } from '@openng/optimus-ui/config';
+import Aura from '@openng/optimus-ui-themes/aura';
 
 import { CreateTheme } from './create-theme';
+import { SAVED_THEMES_STORAGE_KEY } from '../services/saved-themes.service';
 import { ThemeDesignerService } from '../services/theme-designer.service';
 
 describe('CreateTheme', () => {
@@ -10,8 +13,10 @@ describe('CreateTheme', () => {
   let service: ThemeDesignerService;
 
   beforeEach(async () => {
+    localStorage.clear();
     await TestBed.configureTestingModule({
       imports: [CreateTheme],
+      providers: [provideOptimus({ theme: { preset: Aura } })],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CreateTheme);
@@ -143,5 +148,93 @@ describe('CreateTheme', () => {
     const errorMsg = el.querySelector('p.import-error');
     expect(errorMsg).toBeTruthy();
     expect(errorMsg?.textContent).toContain('Invalid theme token');
+  });
+
+  describe('saved themes', () => {
+    const stored = [
+      {
+        id: 'a',
+        name: 'Ocean',
+        preset: { primitive: {} },
+        config: { fontSize: '14px', fontFamily: 'Inter var' },
+        updatedAt: 2000,
+      },
+      {
+        id: 'b',
+        name: 'Forest',
+        preset: { primitive: {} },
+        config: { fontSize: '14px', fontFamily: 'Inter var' },
+        updatedAt: 1000,
+      },
+    ];
+
+    async function renderWithStoredThemes(): Promise<void> {
+      TestBed.resetTestingModule();
+      localStorage.setItem(SAVED_THEMES_STORAGE_KEY, JSON.stringify(stored));
+      await TestBed.configureTestingModule({
+        imports: [CreateTheme],
+        providers: [provideOptimus({ theme: { preset: Aura } })],
+      }).compileComponents();
+      fixture = TestBed.createComponent(CreateTheme);
+      component = fixture.componentInstance;
+      service = TestBed.inject(ThemeDesignerService);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      el = fixture.nativeElement as HTMLElement;
+    }
+
+    it('should hide the saved themes section when nothing is stored', () => {
+      expect(el.querySelector('.saved-list')).toBeNull();
+    });
+
+    it('should list stored themes newest first', async () => {
+      await renderWithStoredThemes();
+      const names = Array.from(el.querySelectorAll('.saved-theme strong')).map((n) =>
+        n.textContent?.trim(),
+      );
+      expect(names).toEqual(['Ocean', 'Forest']);
+    });
+
+    it('should open a saved theme in the editor', async () => {
+      await renderWithStoredThemes();
+      (el.querySelector('.saved-open') as HTMLButtonElement).click();
+
+      expect(service.designer().activeView).toBe('editor');
+      expect(service.designer().theme?.id).toBe('a');
+      expect(service.designer().theme?.name).toBe('Ocean');
+    });
+
+    it('should ask for confirmation before deleting', async () => {
+      await renderWithStoredThemes();
+      (el.querySelector('button[aria-label="Delete Forest"]') as HTMLButtonElement).click();
+      fixture.detectChanges();
+
+      expect(component['pendingDelete']()?.name).toBe('Forest');
+      expect(el.querySelectorAll('.saved-theme').length).toBe(2);
+      expect(JSON.parse(localStorage.getItem(SAVED_THEMES_STORAGE_KEY)!).length).toBe(2);
+    });
+
+    it('should keep the theme when deletion is cancelled', async () => {
+      await renderWithStoredThemes();
+      (el.querySelector('button[aria-label="Delete Forest"]') as HTMLButtonElement).click();
+      component['onDeleteDialogVisibleChange'](false);
+      fixture.detectChanges();
+
+      expect(component['pendingDelete']()).toBeNull();
+      expect(el.querySelectorAll('.saved-theme').length).toBe(2);
+    });
+
+    it('should delete a saved theme once confirmed', async () => {
+      await renderWithStoredThemes();
+      (el.querySelector('button[aria-label="Delete Forest"]') as HTMLButtonElement).click();
+      component['confirmDelete']();
+      fixture.detectChanges();
+
+      const names = Array.from(el.querySelectorAll('.saved-theme strong')).map((n) =>
+        n.textContent?.trim(),
+      );
+      expect(names).toEqual(['Ocean']);
+      expect(JSON.parse(localStorage.getItem(SAVED_THEMES_STORAGE_KEY)!).length).toBe(1);
+    });
   });
 });

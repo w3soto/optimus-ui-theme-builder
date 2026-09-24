@@ -266,6 +266,94 @@ textarea:focus {
   color: var(--p-red-500) !important;
 }
 
+.saved-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.saved-theme {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.55rem 0.55rem 0.85rem;
+  border: 1px solid var(--p-content-border-color);
+  border-radius: 0.75rem;
+  background: var(--p-content-background);
+}
+
+.saved-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.saved-copy strong {
+  overflow: hidden;
+  color: var(--p-text-color);
+  font-size: 0.88rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.saved-copy small {
+  color: var(--p-text-muted-color);
+  font-size: 0.7rem;
+}
+
+.saved-open,
+.saved-delete {
+  border: 1px solid var(--p-content-border-color);
+  border-radius: 0.5rem;
+  color: var(--p-text-color);
+  background: transparent;
+  cursor: pointer;
+}
+
+.saved-open {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.saved-delete {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  color: var(--p-text-muted-color);
+}
+
+.saved-open:hover {
+  border-color: var(--p-primary-color);
+  color: var(--p-primary-color);
+}
+
+.saved-delete:hover {
+  border-color: var(--p-red-500);
+  color: var(--p-red-500);
+}
+
+.delete-message {
+  margin: 0;
+  color: var(--p-text-muted-color);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.delete-message strong {
+  color: var(--p-text-color);
+}
+
+.saved-error {
+  margin: -0.6rem 0 1.4rem;
+  font-size: 0.78rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .starter-option {
     transition: none;

@@ -1,11 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ThemeDesignerService } from './theme-designer.service';
+import { SavedThemesService } from './saved-themes.service';
+import {
+  ThemeDesignerService,
+} from './theme-designer.service';
 
 describe('ThemeDesignerService', () => {
   let service: ThemeDesignerService;
 
   beforeEach(() => {
+    localStorage.clear();
     TestBed.configureTestingModule({});
     service = TestBed.inject(ThemeDesignerService);
   });
@@ -460,6 +464,218 @@ describe('ThemeDesignerService', () => {
 
       expect(service.acTokens().length).toBe(1);
       expect(service.acTokens()[0].name).toBe('test');
+    });
+  });
+
+  describe('saved themes', () => {
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('should assign a new id to each created theme', () => {
+      service.createThemeFromPreset('One', { primitive: {} });
+      const firstId = service.designer().theme?.id;
+      service.createThemeFromPreset('Two', { primitive: {} });
+      const secondId = service.designer().theme?.id;
+
+      expect(firstId).toBeTruthy();
+      expect(secondId).toBeTruthy();
+      expect(secondId).not.toBe(firstId);
+    });
+
+    function editTheme(): void {
+      service.designer.update((prev) => ({
+        ...prev,
+        theme: { ...prev.theme!, preset: { primitive: { blue: { 500: '#ffffff' } } } },
+      }));
+    }
+
+    it('should save a newly created theme', () => {
+      const saved = TestBed.inject(SavedThemesService);
+      service.createThemeFromPreset('Created', { primitive: {} });
+
+      expect(saved.get(service.designer().theme!.id!)?.name).toBe('Created');
+    });
+
+    it('should not save edits until the theme is applied', () => {
+      vi.useFakeTimers();
+      const saved = TestBed.inject(SavedThemesService);
+      service.createThemeFromPreset('Manual', { primitive: { blue: { 500: '#000000' } } });
+      const id = service.designer().theme!.id!;
+
+      editTheme();
+      TestBed.tick();
+      vi.advanceTimersByTime(5000);
+      expect(saved.get(id)?.preset).toEqual({ primitive: { blue: { 500: '#000000' } } });
+
+      service.applyTheme();
+      expect(saved.themes().length).toBe(1);
+      expect(saved.get(id)?.preset).toEqual({ primitive: { blue: { 500: '#ffffff' } } });
+    });
+
+    it('should save an imported theme as a new entry', () => {
+      const saved = TestBed.inject(SavedThemesService);
+      const token = btoa(JSON.stringify({ name: 'Imported', preset: { primitive: {} } }));
+      service.importTheme(token);
+
+      expect(saved.themes().length).toBe(1);
+      expect(saved.themes()[0].name).toBe('Imported');
+    });
+
+    it('should not re-save a theme when it is reopened', () => {
+      const saved = TestBed.inject(SavedThemesService);
+      saved.save({
+        id: 'kept',
+        name: 'Kept',
+        preset: {},
+        config: { fontSize: '14px', fontFamily: 'Inter var' },
+        updatedAt: 1,
+      });
+      service.openSavedTheme('kept');
+
+      expect(saved.get('kept')?.updatedAt).toBe(1);
+    });
+
+    it('should reopen a saved theme and keep its id', () => {
+      const saved = TestBed.inject(SavedThemesService);
+      saved.save({
+        id: 'stored',
+        name: 'Stored',
+        preset: { primitive: { red: { 500: '#ff0000' } } },
+        config: { fontSize: '16px', fontFamily: 'Inter var' },
+        updatedAt: 1,
+      });
+
+      expect(service.openSavedTheme('stored')).toBe(true);
+      const theme = service.designer().theme!;
+      expect(theme.id).toBe('stored');
+      expect(theme.name).toBe('Stored');
+      expect(theme.preset).toEqual({ primitive: { red: { 500: '#ff0000' } } });
+      expect(theme.config.fontSize).toBe('16px');
+      expect(service.designer().activeView).toBe('editor');
+    });
+
+    it('should return false for an unknown saved theme', () => {
+      expect(service.openSavedTheme('missing')).toBe(false);
+    });
+
+    it('should delete a saved theme', () => {
+      const saved = TestBed.inject(SavedThemesService);
+      saved.save({
+        id: 'gone',
+        name: 'Gone',
+        preset: {},
+        config: { fontSize: '14px', fontFamily: 'Inter var' },
+        updatedAt: 1,
+      });
+      service.deleteSavedTheme('gone');
+      expect(saved.get('gone')).toBeUndefined();
+    });
+  });
+
+  describe('resetTheme', () => {
+    const original = { primitive: { blue: { 500: '#000000' } } };
+    const edited = { primitive: { blue: { 500: '#ffffff' } } };
+
+    function edit(): void {
+      service.designer.update((prev) => ({
+        ...prev,
+        theme: {
+          ...prev.theme!,
+          preset: structuredClone(edited),
+          config: { fontSize: '18px', fontFamily: 'Roboto' },
+        },
+      }));
+    }
+
+    it('should restore the preset and settings the theme was created from', () => {
+      service.createThemeFromPreset('Reset me', original, { fontSize: '14px' });
+      edit();
+      service.applyTheme();
+
+      service.resetTheme();
+
+      const theme = service.designer().theme!;
+      expect(theme.name).toBe('Reset me');
+      expect(theme.preset).toEqual(original);
+      expect(theme.config).toEqual({ fontSize: '14px', fontFamily: 'Inter var' });
+    });
+
+    it('should save the reset theme', () => {
+      const saved = TestBed.inject(SavedThemesService);
+      service.createThemeFromPreset('Saved reset', original);
+      edit();
+      service.applyTheme();
+
+      service.resetTheme();
+
+      expect(saved.get(service.designer().theme!.id!)?.preset).toEqual(original);
+    });
+
+    it('should increment reloadCount', () => {
+      service.createThemeFromPreset('Count', original);
+      service.resetTheme();
+      expect(service.reloadCount()).toBe(1);
+    });
+
+    it('should reset a reopened theme to its original starting point', () => {
+      service.createThemeFromPreset('Reopened', original);
+      edit();
+      service.applyTheme();
+      const id = service.designer().theme!.id!;
+
+      TestBed.resetTestingModule();
+      const reloaded = TestBed.inject(ThemeDesignerService);
+      reloaded.openSavedTheme(id);
+      expect(reloaded.designer().theme!.preset).toEqual(edited);
+
+      reloaded.resetTheme();
+      expect(reloaded.designer().theme!.preset).toEqual(original);
+    });
+
+    it('should reset an imported theme to the imported token', () => {
+      const token = btoa(JSON.stringify({ name: 'Imported', preset: original }));
+      service.importTheme(token);
+      edit();
+
+      service.resetTheme();
+      expect(service.designer().theme!.preset).toEqual(original);
+    });
+
+    it('should report whether there are changes to reset', () => {
+      service.createThemeFromPreset('Changes', original);
+      expect(service.canReset()).toBe(false);
+
+      edit();
+      expect(service.canReset()).toBe(true);
+
+      service.resetTheme();
+      expect(service.canReset()).toBe(false);
+    });
+
+    it('should not invent a starting point for themes saved before Reset existed', () => {
+      const saved = TestBed.inject(SavedThemesService);
+      saved.save({
+        id: 'legacy',
+        name: 'Legacy',
+        preset: structuredClone(edited),
+        config: { fontSize: '14px', fontFamily: 'Inter var' },
+        updatedAt: 1,
+      });
+
+      service.openSavedTheme('legacy');
+      edit();
+      service.applyTheme();
+
+      expect(service.hasKnownOriginal()).toBe(false);
+      expect(service.canReset()).toBe(false);
+      expect(saved.get('legacy')?.original).toBeUndefined();
+    });
+
+    it('should do nothing without a theme', () => {
+      service.resetTheme();
+      expect(service.designer().theme).toBeNull();
+      expect(service.reloadCount()).toBe(0);
     });
   });
 });

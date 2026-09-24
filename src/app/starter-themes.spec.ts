@@ -30,8 +30,10 @@ describe('starter-themes', () => {
     const theme = getStarterTheme('bootstrap')!;
     const preset = theme.preset as any;
 
-    expect(preset.semantic.colorScheme.light.primary.color).toBe('#0d6efd');
-    expect(preset.semantic.colorScheme.light.content.borderColor).toBe('#dee2e6');
+    expect(preset.primitive.bsblue[500]).toBe('#0d6efd');
+    expect(preset.semantic.colorScheme.light.primary.color).toBe('{primary.500}');
+    expect(preset.primitive.bsgray[200]).toBe('#dee2e6');
+    expect(preset.semantic.colorScheme.light.content.borderColor).toBe('{bsgray.200}');
     expect(preset.semantic.formField.paddingY).toBe('0.375rem');
     expect(preset.components.button.root.paddingX).toBe('0.75rem');
     expect(preset.components.datatable.colorScheme.light.headerCell.background).toBe(

@@ -40,4 +40,66 @@ describe('ComponentEditor', () => {
     const fieldsets = el.querySelectorAll('[data-pc-name="fieldset"]');
     expect(fieldsets.length).toBe(0);
   });
+
+  describe('CSS section', () => {
+    function select(key: string): void {
+      component['selectedComponent'].set(key);
+      fixture.detectChanges();
+    }
+
+    function textarea(): HTMLTextAreaElement {
+      return el.querySelector('#component-css') as HTMLTextAreaElement;
+    }
+
+    function type(value: string): void {
+      textarea().value = value;
+      textarea().dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+    }
+
+    it('should show the component CSS', () => {
+      select('datatable');
+      expect(textarea().value).toBe((Aura as any).components.datatable.css);
+    });
+
+    it('should show an empty editor for components without CSS', () => {
+      select('button');
+      expect(textarea().value).toBe('');
+    });
+
+    it('should update the preset when CSS is edited', () => {
+      select('button');
+      type('.p-button { letter-spacing: 1px; }');
+
+      expect(service.designer().theme!.preset.components.button.css).toBe(
+        '.p-button { letter-spacing: 1px; }',
+      );
+    });
+
+    it('should remove the css property when cleared', () => {
+      select('datatable');
+      type('');
+
+      expect('css' in service.designer().theme!.preset.components.datatable).toBe(false);
+    });
+
+    it('should mark changed CSS and revert it to the original', () => {
+      select('datatable');
+      expect(el.querySelector('button[aria-label="Revert CSS to original"]')).toBeNull();
+
+      type('.p-datatable { color: red; }');
+      const revert = el.querySelector(
+        'button[aria-label="Revert CSS to original"]',
+      ) as HTMLButtonElement;
+      expect(el.querySelector('label[for="component-css"]')!.classList).toContain('font-bold');
+
+      revert.click();
+      fixture.detectChanges();
+
+      expect(service.designer().theme!.preset.components.datatable.css).toBe(
+        (Aura as any).components.datatable.css,
+      );
+      expect(el.querySelector('button[aria-label="Revert CSS to original"]')).toBeNull();
+    });
+  });
 });
